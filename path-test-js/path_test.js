@@ -20,6 +20,10 @@ const points = [
     {
         name: 'E',
         coordinates: [-22, 49]
+    },
+    {
+        name: 'Z',
+        coordinates: [153, -33]
     }
 ]
 
@@ -69,23 +73,27 @@ function getAllCombinationsConsts (allCombinations, allDistances) {
     return allCombinations.map(c => {
         let distance = 0;
         const poitCord = points.find(p => p.name === c[0]).coordinates
-        for (let i = 0; i < c.length - 2; i++) {
+        for (let i = 0; i < c.length - 1; i++) {
             distance += allDistances[c[i]][c[i+1]]
         }
+        //console.log(getDistance(start[0], start[1], poitCord[0], poitCord[1]), '  ',points.find(p => p.name === c[0]).name )
         return distance + getDistance(start[0], start[1], poitCord[0], poitCord[1])
        });
 }
 
 function fastestRout (start, points) {
+   console.time()
    const allDistances =  getAllDistances(points);
    const allCombinations = getAllCombinations(points); 
    const allCombinationsCosts = getAllCombinationsConsts(allCombinations, allDistances);
+   console.log('permutations:: ',allCombinationsCosts.length)
    const fastestRout = {
     cost: Math.min(...allCombinationsCosts),
     rout: allCombinations[allCombinationsCosts.indexOf(Math.min(...allCombinationsCosts))]
    }
-   console.log('Start', start, '\nPoints', points, '\nAlldistances:: ', allDistances, '\nAllcombinations:: ', allCombinations, '\nAllCombinationsCosts:: ', allCombinationsCosts, '\nFastestRout:: ', fastestRout);
-   //console.log('Start', start, '\nPoints', points, '\nFastestRout:: ', fastestRout);
+   console.timeEnd()
+   //console.log('Start', start, '\nPoints', points, '\nAlldistances:: ', allDistances, '\nAllcombinations:: ', allCombinations, '\nAllCombinationsCosts:: ', allCombinationsCosts, '\nFastestRout:: ', fastestRout);
+   console.log('Start', start, '\nPoints', points, '\nFastestRout:: ', fastestRout);
 }
 
 function getDistance(x1, y1, x2, y2){
