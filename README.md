@@ -5,13 +5,13 @@
 
 
 
-<!-- PROJECT LOGO 
+<!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://i.ibb.co/9GCWTJM/854894.png">
+  <a href="https://github.com/quintanilha6/azeroth-google-maps">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
-  -->
+
 
   <h3 align="center">Azeroth Google Maps</h3>
 
