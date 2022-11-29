@@ -32,19 +32,19 @@ function Config:GetThemeColor()
 	return c.r, c.g, c.b, c.hex;
 end
 
-function Config:CreateButton(point, relativeFrame, relativePoint, yOffset, text)
+function Config:CreateButton(point, relativeFrame, relativePoint, xOffset, yOffset, text)
 	local btn = CreateFrame("Button", nil, UIConfig, "GameMenuButtonTemplate");
-	btn:SetPoint(point, relativeFrame, relativePoint, 0, yOffset);
-	btn:SetSize(140, 40);
+	btn:SetPoint(point, relativeFrame, relativePoint, xOffset, yOffset);
+	btn:SetSize(100, 30);
 	btn:SetText(text);
-	btn:SetNormalFontObject("GameFontNormalLarge");
-	btn:SetHighlightFontObject("GameFontHighlightLarge");
+	btn:SetNormalFontObject("GameFontNormalSmall");
+	btn:SetHighlightFontObject("GameFontHighlightSmall");
 	return btn;
 end
 
 function Config:CreateMenu()
 	UIConfig = CreateFrame("Frame", "AzerothPathOptimizerConfig", UIParent, "BasicFrameTemplateWithInset");
-	UIConfig:SetSize(260, 360);
+	UIConfig:SetSize(460, 360);
 	UIConfig:SetPoint("CENTER"); -- Doesn't need to be ("CENTER", UIParent, "CENTER")
 
 	UIConfig.title = UIConfig:CreateFontString(nil, "OVERLAY", "GameFontHighlight");
@@ -54,8 +54,11 @@ function Config:CreateMenu()
 	----------------------------------
 	-- Buttons
 	----------------------------------
-	-- Calculate Button:
-	UIConfig.saveBtn = self:CreateButton("CENTER", UIConfig, "TOP", -70, "Calculate OP");
+	-- Calculate Optimal Path Button:
+	UIConfig.saveBtn = self:CreateButton("RIGHT", UIConfig, "TOP", 0, -50, "Calculate OP");
+
+	-- Reset Button:	
+	UIConfig.resetBtn = self:CreateButton("CENTER", UIConfig.saveBtn, "CENTER", 100, 0, "Reset");
 	
 	UIConfig:Hide();
 	return UIConfig;
