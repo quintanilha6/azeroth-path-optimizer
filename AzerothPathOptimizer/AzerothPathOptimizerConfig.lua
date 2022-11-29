@@ -42,6 +42,48 @@ function Config:CreateButton(point, relativeFrame, relativePoint, xOffset, yOffs
 	return btn;
 end
 
+local function Tab_OnClick(self)
+	PanelTemplates_SetTab(self:GetParent(), self:GetID());
+	
+	local scrollChild = UIConfig.ScrollFrame:GetScrollChild();
+	if (scrollChild) then
+		scrollChild:Hide();
+	end
+	
+	UIConfig.ScrollFrame:SetScrollChild(self.content);
+	self.content:Show();	
+end
+
+local function SetTabs(frame, numTabs, ...)
+	frame.numTabs = numTabs;
+	
+	local contents = {};
+	local frameName = frame:GetName();
+	
+	for i = 1, numTabs do	
+		local tab = CreateFrame("Button", frameName.."Tab"..i, frame, "CharacterFrameTabButtonTemplate");
+		tab:SetID(i);
+		tab:SetText(select(i, ...));
+		tab:SetScript("OnClick", Tab_OnClick);
+		
+		tab.content = CreateFrame("Frame", nil, UIConfig.ScrollFrame);
+		tab.content:SetSize(308, 500);
+		tab.content:Hide();
+		
+		table.insert(contents, tab.content);
+		
+		if (i == 1) then
+			tab:SetPoint("TOPLEFT", UIConfig, "BOTTOMLEFT", 5, 2);
+		else
+			tab:SetPoint("TOPLEFT", _G[frameName.."Tab"..(i - 1)], "TOPRIGHT", -14, 0);
+		end	
+	end
+	
+	Tab_OnClick(_G[frameName.."Tab1"]);
+	
+	return unpack(contents);
+end
+
 function Config:CreateMenu()
 	UIConfig = CreateFrame("Frame", "AzerothPathOptimizerConfig", UIParent, "BasicFrameTemplateWithInset");
 	UIConfig:SetSize(460, 360);
@@ -52,13 +94,18 @@ function Config:CreateMenu()
 	UIConfig.title:SetText("Azeroth Path Optimizer");
 
 	----------------------------------
+	-- Tabs
+	----------------------------------
+	local tab1, tab2 = SetTabs(UIConfig, 2, "Main", "Settings");
+
+	----------------------------------
 	-- Buttons
 	----------------------------------
 	-- Calculate Optimal Path Button:
-	UIConfig.saveBtn = self:CreateButton("RIGHT", UIConfig, "TOP", 0, -50, "Calculate OP");
+	tab1.saveBtn = self:CreateButton("RIGHT", tab1, "TOP", 0, -50, "Calculate OP");
 
 	-- Reset Button:	
-	UIConfig.resetBtn = self:CreateButton("CENTER", UIConfig.saveBtn, "CENTER", 100, 0, "Reset");
+	tab1.resetBtn = self:CreateButton("CENTER", tab1.saveBtn, "CENTER", 100, 0, "Reset");
 	
 	UIConfig:Hide();
 	return UIConfig;
