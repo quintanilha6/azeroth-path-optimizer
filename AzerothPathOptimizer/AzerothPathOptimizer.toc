@@ -1,0 +1,8 @@
+## Interface: 30400
+## Title: AzerothPathOptimizer
+## Notes: Show optimal path between multiple coordinates
+## Author: Quinta & Rosty & Fantas
+## Version: 0.0.1
+
+AzerothPathOptimizerConfig.lua
+AzerothPathOptimizer.lua
